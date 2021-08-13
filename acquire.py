@@ -1,4 +1,5 @@
 from env import username, host, password
+import os
 import pandas as pd
 
 def get_titanic_data(db_name='titanic_db', username=username, hostname=host, password=password):
