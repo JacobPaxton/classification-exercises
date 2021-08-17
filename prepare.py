@@ -1,9 +1,15 @@
 from env import username, host, password
 import pandas as pd
+from acquire import get_iris_data
 
-def prep_iris(iris_df):
-    df = iris_df.copy()
-    df.drop(columns=['species_id', 'measurement_id'], inplace=True)
-    df.rename(columns={'species_name':'species'}, inplace=True)
-    dummy_df = pd.get_dummies(df[['species']], dummy_na=False, drop_first=True)
-    return dummy_df
+
+def prep_data(iris_data):
+    '''Takes iris_dataframe and drop columns and then returns dummy
+    DataFrames for each species type.
+    '''
+    args = [col_name for col_name in iris_data.columns if col_name not in ['sepal_length', 'sepal_width', 'petal_length', 'petal_width', 'species_name']]
+    iris_data.drop(columns=[*args], inplace=True)
+    iris_data.rename(columns={'species_name': 'species'}, inplace=True)
+    dummy_vars = pd.get_dummies(iris_data.species)
+        
+    return iris_data, dummy_vars
